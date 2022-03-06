@@ -60,8 +60,8 @@ function game(){
       console.log(points);
    }
    if(points[0]>points[1]){
-      console.log("You win the war!!!!");
+      return "You win the war!!!!"
    } else{
-      console.log("You lose!");
+      return "You lose!"
    }
 }
