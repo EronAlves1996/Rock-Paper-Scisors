@@ -3,7 +3,6 @@ function computerPlay(){
 }
 
 function roundPlay(playerSelection, computerSelection){
-   playerSelection = playerSelection.toLowerCase();
    if (playerSelection === computerSelection){
       return 0
    }else{
@@ -41,7 +40,11 @@ function game(){
    let points = [0/*0 for player*/,
       /*1 for computer*/0];
    for(let i=0;i<5;i++){
-      let playerSelection = prompt("Insert here your guess:");
+
+      //Player's input standartization comes before functions to work well in
+      //console.log() too
+
+      let playerSelection = prompt("Insert here your guess:").toLowerCase();
       let computerSelection = computerPlay();
       let result = roundPlay(playerSelection, computerSelection);
       switch (result){
@@ -57,7 +60,6 @@ function game(){
             points[1]++;
             break;
       }
-      console.log(points);
    }
    if(points[0]>points[1]){
       return "You win the war!!!!"
