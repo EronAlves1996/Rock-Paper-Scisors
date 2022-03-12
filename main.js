@@ -36,9 +36,23 @@ function roundPlay(playerSelection, computerSelection){
 }
 
 function game(){
+
+  /* Lógica do placar */
+
+  const score = document.createElement("div")
+
+  let points = [0/*0 for player*/,
+      /*1 for computer*/0];
+
+  function refreshScore(){
+    score.textContent=`Computer = ${points[1]}\nPlayer = ${points[0]}`;
+  }
+
+  document.body.appendChild(score);
+
+  refreshScore();
+  /*Lógica dos botões */
   const buttons = [], display = document.createElement("div");
-  
-  /* Lógica dos botões */
 
   for(let i = 0;i<3;i++){
     buttons.push(document.createElement("button"));
@@ -62,7 +76,7 @@ function game(){
       computerSelection = computerPlay();
       playerSelection = e.target.id;
       changeDisplay(roundPlay(playerSelection, computerSelection))
-    }
+    };
     document.body.appendChild(n);
   });
 
@@ -84,33 +98,17 @@ function game(){
             points[1]++;
             break;
     }
+    points.forEach(n => {
+      if(n == 5){
+        buttons.forEach(n => n.onclick = undefined);
+      }
+    })
+    if (points[0] == 5) display.textContent = "You win!!"
+    else if(points[1] == 5) display.textContent = "You loose!!"
+    refreshScore();
   }
 
-   let points = [0/*0 for player*/,
-      /*1 for computer*/0];
-/*   for(let i=0;i<5;i++){
-
-      //Player's input standartization comes before functions to work well in
-      //console.log() too
-
-      let playerSelection = prompt("Insert here your guess:").toLowerCase();
-      let computerSelection = computerPlay();
-      let result = roundPlay(playerSelection, computerSelection);
-      switch (result){
-         case 1:
-            console.log(`You win!! Computer choosed ${computerSelection} and ${playerSelection} beats ${computerSelection}!`);
-            points[0]++;
-            break;
-         case 0:
-            console.log(`It's a tie!! You two choosed ${playerSelection}`);
-            break;
-         case -1:
-            console.log(`You loose!! Computer choosed ${computerSelection} and ${playerSelection} loose for ${computerSelection}!`);
-            points[1]++;
-            break;
-      }
-   }
-   
+  /*   
    if(points[0]>points[1]){
       return "You win the war!!!!"
    } else{
