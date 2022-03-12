@@ -25,7 +25,7 @@ function roundPlay(playerSelection, computerSelection){
             break;
          case 'scissor': 
             if(computerSelection === 'paper'){
-               return 1
+              return 1
             }
             else if(computerSelection === 'rock'){
                return -1
@@ -36,6 +36,26 @@ function roundPlay(playerSelection, computerSelection){
 }
 
 function game(){
+  let buttons = [];
+  for(let i = 1;i<=3;i++){
+    buttons.push=document.createElement("button");
+    switch(i){
+      case 1:
+        buttons[i-1].id = "rock";
+        break;
+      case 2:
+        buttons[i-1].id = "paper"
+        break;
+      case 3:
+        buttons[i-1].id = "scissor"
+        break;
+    }
+  }
+
+  buttons.forEach(n => n.addEventListerner('click', (e)=> roundPlay(e.id, computerPlay())));
+  
+
+
    alert("Welcome to Rock-Paper-Scissors!! \n This game will be played in 5 rounds")
    let points = [0/*0 for player*/,
       /*1 for computer*/0];
