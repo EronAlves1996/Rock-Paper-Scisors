@@ -36,7 +36,10 @@ function roundPlay(playerSelection, computerSelection){
 }
 
 function game(){
-  const buttons = [];
+  const buttons = [], display = document.createElement("div");
+  
+  /* Lógica dos botões */
+
   for(let i = 0;i<3;i++){
     buttons.push(document.createElement("button"));
     switch(i){
@@ -52,12 +55,37 @@ function game(){
     }
   }
 
+  let playerSelection = "", computerSelection = "";
+
   buttons.forEach(n => {
-    n.onclick = e => console.log(roundPlay(e.target.id, computerPlay()));
+    n.onclick = e => {
+      computerSelection = computerPlay();
+      playerSelection = e.target.id;
+      changeDisplay(roundPlay(playerSelection, computerSelection))
+    }
     document.body.appendChild(n);
   });
 
-  let div
+  /* Lógica do display */
+
+  document.body.appendChild(display);
+  
+  function changeDisplay(winvalue){
+    switch (winvalue){
+         case 1:
+            display.textContent = `You win!! Computer choosed ${computerSelection} and ${playerSelection} beats ${computerSelection}!`;
+            points[0]++;
+            break;
+         case 0:
+            display.textContent = `It's a tie!! You two choosed ${playerSelection}`;
+            break;
+         case -1:
+            display.textContent = `You loose!! Computer choosed ${computerSelection} and ${playerSelection} loose for ${computerSelection}!`;
+            points[1]++;
+            break;
+    }
+  }
+
    let points = [0/*0 for player*/,
       /*1 for computer*/0];
 /*   for(let i=0;i<5;i++){
