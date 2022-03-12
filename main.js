@@ -36,27 +36,28 @@ function roundPlay(playerSelection, computerSelection){
 }
 
 function game(){
-  let buttons = [];
-  for(let i = 1;i<=3;i++){
-    buttons.push=document.createElement("button");
+  const buttons = [];
+  for(let i = 0;i<3;i++){
+    buttons.push(document.createElement("button"));
     switch(i){
+      case 0:
+        buttons[i].id = "rock";
+        break;
       case 1:
-        buttons[i-1].id = "rock";
+        buttons[i].id = "paper"
         break;
       case 2:
-        buttons[i-1].id = "paper"
-        break;
-      case 3:
-        buttons[i-1].id = "scissor"
+        buttons[i].id = "scissor"
         break;
     }
   }
 
-  buttons.forEach(n => n.addEventListerner('click', (e)=> roundPlay(e.id, computerPlay())));
-  
+  buttons.forEach(n => {
+    n.onclick = e => console.log(roundPlay(e.target.id, computerPlay()));
+    document.body.appendChild(n);
+  });
 
-
-   alert("Welcome to Rock-Paper-Scissors!! \n This game will be played in 5 rounds")
+  let div
    let points = [0/*0 for player*/,
       /*1 for computer*/0];
 /*   for(let i=0;i<5;i++){
@@ -81,10 +82,10 @@ function game(){
             break;
       }
    }
-   */
+   
    if(points[0]>points[1]){
       return "You win the war!!!!"
    } else{
       return "You lose!"
-   }
+   }*/
 }
