@@ -39,7 +39,7 @@ function game(){
    alert("Welcome to Rock-Paper-Scissors!! \n This game will be played in 5 rounds")
    let points = [0/*0 for player*/,
       /*1 for computer*/0];
-   for(let i=0;i<5;i++){
+/*   for(let i=0;i<5;i++){
 
       //Player's input standartization comes before functions to work well in
       //console.log() too
@@ -61,6 +61,7 @@ function game(){
             break;
       }
    }
+   */
    if(points[0]>points[1]){
       return "You win the war!!!!"
    } else{
