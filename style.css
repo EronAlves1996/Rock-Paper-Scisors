@@ -5,4 +5,17 @@ body{
   color: #f0f0f0;
 }
 
+button img{
+  width: 200px;
+}
 
+button{
+  height: 300px;
+  flex: 1;
+  margin: 100px;
+}
+
+.buttons{
+  display: flex;
+  align-items: center;
+}

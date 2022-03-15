@@ -99,20 +99,25 @@ function doPlaying(e, displayScore, display, buttons){
 function button(){
   this.playingButtons = document.createElement("div");
   this.createButtons = function(){
-    this.playingButtons.classList.add = "buttons";
+    this.playingButtons.classList.add("buttons");
     for(let i = 0;i<3;i++){
       let tempButton = document.createElement("button");
+      let buttonimg = document.createElement("img");
       switch(i){
         case 0:
           tempButton.id = "rock";
+          buttonimg.src = "./images/rock.png";
           break;
         case 1:
-          tempButton.id = "paper"
+          tempButton.id = "paper";
+          buttonimg.src = "./images/paper.png";
           break;
         case 2:
-          tempButton.id = "scissor"
+          tempButton.id = "scissor";
+          buttonimg.src = "./images/scissor.png";
           break;
       }
+      tempButton.appendChild(buttonimg);
       this.playingButtons.appendChild(tempButton);
   }};
   this.activateButtons = function(display, score){
