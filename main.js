@@ -89,9 +89,12 @@ function offerRestart(){
 }
 
 function doPlaying(e, displayScore, display, buttons){
+  e = e.target;
+  while(!(e.matches("button"))){
+    e = e.parentNode;
+  }
   let computerSelection = computerPlay();
-  console.log(e.target.id);
-  let playerSelection = e.target.id;
+  let playerSelection = e.id;
   display.changeDisplay(roundPlay(playerSelection, computerSelection), computerSelection, playerSelection, displayScore);
   checkWin(displayScore, display, buttons);
 }
