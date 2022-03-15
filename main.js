@@ -144,3 +144,6 @@ function game(){
   document.body.appendChild(endDisplay.resultDisplay);
 }
 
+/* Ponto de Entrada do Jogo */
+
+addEventListener("DOMContentLoaded", game);
