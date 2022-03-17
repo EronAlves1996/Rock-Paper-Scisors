@@ -16,7 +16,7 @@ button img{
 button{
   height: 300px;
   flex: 1;
-  margin: 100px;
+  margin: 0px 100px;
 }
 
 .buttons{

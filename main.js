@@ -49,17 +49,24 @@ function display(){
   this.changeDisplay = function(winvalue, computerSelection, playerSelection, displayScore){
     switch (winvalue){
       case 1:
-        this.resultDisplay.textContent = `You win!! Computer choosed ${computerSelection} and ${playerSelection} beats ${computerSelection}!`;
+        //this.resultDisplay.textContent = `You win!! Computer choosed ${computerSelection} and ${playerSelection} beats ${computerSelection}!`;
         displayScore.playerPoints++;
         break;
       case 0:
-        this.resultDisplay.textContent = `It's a tie!! You two choosed ${playerSelection}`;
+        //this.resultDisplay.textContent = `It's a tie!! You two choosed ${playerSelection}`;
         break;
       case -1:
-        this.resultDisplay.textContent = `You loose!! Computer choosed ${computerSelection} and ${playerSelection} loose for ${computerSelection}!`;
+        //this.resultDisplay.textContent = `You loose!! Computer choosed ${computerSelection} and ${playerSelection} loose for ${computerSelection}!`;
         displayScore.computerPoints++;
         break;
     }
+    this.resultDisplay.innerHTML = "";
+    let computerChoosed = document.createElement("button");
+    computerChoosed.id = computerSelection;
+    let computerChoosedImg = document.createElement("img");
+    computerChoosedImg.src = `./images/${computerChoosed.id}.png`;
+    computerChoosed.appendChild(computerChoosedImg);
+    this.resultDisplay.appendChild(computerChoosed);
     displayScore.refreshScore();
   }
 }
