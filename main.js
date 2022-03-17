@@ -103,13 +103,20 @@ function doPlaying(e, displayScore, display, buttons){
     e = e.parentNode;
   }
   buttons.playingButtons.childNodes.forEach(n => {
-    if( !n.matches(`#${e.id}`)) n.classList.add('notchoosed');
+    if( !n.matches(`#${e.id}`)) {
+      n.classList.toggle('notchoosed');
+      setTimeout(()=> n.classList.toggle('notchoosed'),3000);
+    }
   })
   e.classList.toggle('choosed');
+  setTimeout(()=>e.classList.toggle('choosed'), 3000);
   let computerSelection = computerPlay();
   let playerSelection = e.id;
   display.changeDisplay(roundPlay(playerSelection, computerSelection), computerSelection, playerSelection, displayScore);
   checkWin(displayScore, display, buttons);
+  setTimeout(()=>{
+
+  }, 3000)
 }
 
 function button(){
