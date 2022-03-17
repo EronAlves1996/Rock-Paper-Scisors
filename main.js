@@ -91,6 +91,8 @@ function offerRestart(){
 function doPlaying(e, displayScore, display, buttons){
   e = e.target;
   while(!(e.matches("button"))){
+    //Previne esse "subborbulhamento" de escapar do contexto de .buttons
+    if(e.matches(".buttons")) return 0;
     e = e.parentNode;
   }
   let computerSelection = computerPlay();
@@ -131,6 +133,15 @@ function button(){
   };
 }
 
+function outdoor(player){
+  this.element = document.createElement("p");
+  this.attachToPage = function(){
+    this.element.id = player;
+    this.element.appendChild(document.createTextNode(player));
+    document.body.appendChild(this.element);
+  }
+}
+
 function game(){  
 
   /* Criar Placar, botões e display de resultados em memória */
@@ -138,6 +149,8 @@ function game(){
   const displayScore = new score(0,0);    
   const buttons = new button();
   const endDisplay = new display();
+  const playerOutdoor = new outdoor("YOU");
+  const computerOutdoor = new outdoor("COMPUTER");
 
   /* Inicializar elementos criados anteriormente */
 
@@ -148,7 +161,9 @@ function game(){
   /* Atrelar elementos ao DOM */
 
   document.body.appendChild(displayScore.scoreDisplay);
+  playerOutdoor.attachToPage();
   document.body.appendChild(buttons.playingButtons);  
+  computerOutdoor.attachToPage();
   document.body.appendChild(endDisplay.resultDisplay);
 }
 
