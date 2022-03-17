@@ -56,6 +56,20 @@ button{
   transition-property: opacity, margin;
   transition-duration: 2s;
   opacity: 0;
-  margin: 0 25px;
+  margin: 0;
   flex: 0 0 auto;
+}
+
+.computer-play{
+  opacity: 0;
+  transform: translateY(-40px);
+  height: 220px;
+  width: 23%;
+}
+
+.computer-play.animated{
+  transition: 2s;
+  opacity: 1;
+  position: static;
+  transform: translateY(0);
 }

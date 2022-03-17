@@ -63,6 +63,8 @@ function display(){
     this.resultDisplay.innerHTML = "";
     let computerChoosed = document.createElement("button");
     computerChoosed.id = computerSelection;
+    computerChoosed.classList.add("computer-play");
+    setTimeout(()=>computerChoosed.classList.add("animated"), 1000);
     let computerChoosedImg = document.createElement("img");
     computerChoosedImg.src = `./images/${computerChoosed.id}.png`;
     computerChoosed.appendChild(computerChoosedImg);
