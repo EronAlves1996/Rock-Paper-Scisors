@@ -10,16 +10,52 @@ body{
 }
 
 button img{
-  width: 200px;
+  width: 100px;
 }
 
 button{
-  height: 300px;
-  flex: 1;
-  margin: 0px 100px;
+  height: 200px;
+  width: 20%;
+  margin: 0px 50px;
 }
 
 .buttons{
   display: flex;
+  justify-content: space-between;
   align-items: center;
+}
+
+.choosed#paper{
+  transition-property: width, height, margin;
+  transition-duration: 2s;
+  height: 220px;
+  margin: 0 200px;
+  width: 23%;
+  flex: 0 0 auto;
+}
+
+.choosed#rock{
+  transition-property: width, height, margin;
+  transition-duration: 2s;
+  height: 220px;
+  margin: 0 200px 0 50px;
+  width: 23%;
+  flex: 0 0 auto;
+}
+
+.choosed#scissor{
+  transition-property: width, height, margin;
+  transition-duration: 2s;
+  height: 220px;
+  margin: 0 50px 0 200px;
+  width: 23%;
+  flex: 0 0 auto;
+}
+
+.notchoosed{
+  transition-property: opacity, margin;
+  transition-duration: 2s;
+  opacity: 0;
+  margin: 0 25px;
+  flex: 0 0 auto;
 }

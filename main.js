@@ -102,6 +102,10 @@ function doPlaying(e, displayScore, display, buttons){
     if(e.matches(".buttons")) return 0;
     e = e.parentNode;
   }
+  buttons.playingButtons.childNodes.forEach(n => {
+    if( !n.matches(`#${e.id}`)) n.classList.add('notchoosed');
+  })
+  e.classList.toggle('choosed');
   let computerSelection = computerPlay();
   let playerSelection = e.id;
   display.changeDisplay(roundPlay(playerSelection, computerSelection), computerSelection, playerSelection, displayScore);
