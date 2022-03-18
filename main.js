@@ -46,17 +46,14 @@ function score(computerPoints, playerPoints){
 
 function display(){
   this.resultDisplay = document.createElement("div");
-  this.changeDisplay = function(winvalue, computerSelection, playerSelection, displayScore){
+  this.changeDisplay = function(winvalue, computerSelection, displayScore){
     switch (winvalue){
       case 1:
-        //this.resultDisplay.textContent = `You win!! Computer choosed ${computerSelection} and ${playerSelection} beats ${computerSelection}!`;
         displayScore.playerPoints++;
         break;
       case 0:
-        //this.resultDisplay.textContent = `It's a tie!! You two choosed ${playerSelection}`;
         break;
       case -1:
-        //this.resultDisplay.textContent = `You loose!! Computer choosed ${computerSelection} and ${playerSelection} loose for ${computerSelection}!`;
         displayScore.computerPoints++;
         break;
     }
@@ -114,7 +111,7 @@ function doPlaying(e, displayScore, display, buttons){
   setTimeout(()=>e.classList.toggle('choosed'), 3000);
   let computerSelection = computerPlay();
   let playerSelection = e.id;
-  display.changeDisplay(roundPlay(playerSelection, computerSelection), computerSelection, playerSelection, displayScore);
+  display.changeDisplay(roundPlay(playerSelection, computerSelection), computerSelection, displayScore);
   checkWin(displayScore, display, buttons);
   setTimeout(()=>{
 
@@ -125,25 +122,29 @@ function button(){
   this.playingButtons = document.createElement("div");
   this.createButtons = function(){
     this.playingButtons.classList.add("buttons");
-    for(let i = 0;i<3;i++){
+    this.playingButtons.classList.toggle("grid");
+    for(let i = 1;i<=3;i++){
       let tempButton = document.createElement("button");
       let buttonimg = document.createElement("img");
       switch(i){
-        case 0:
+        case 1:
           tempButton.id = "rock";
           buttonimg.src = "./images/rock.png";
           break;
-        case 1:
+        case 2:
           tempButton.id = "paper";
           buttonimg.src = "./images/paper.png";
           break;
-        case 2:
+        case 3:
           tempButton.id = "scissor";
           buttonimg.src = "./images/scissor.png";
           break;
       }
       tempButton.appendChild(buttonimg);
-      this.playingButtons.appendChild(tempButton);
+      setTimeout(() => {
+        this.playingButtons.appendChild(tempButton);
+        if (i==3) this.playingButtons.classList.toggle('grid');
+      }, i*200);
   }};
   this.activateButtons = function(display, score){
     this.playingButtons.addEventListener('click', f = (e) => { doPlaying(e, score, display, this) });
@@ -153,11 +154,11 @@ function button(){
   };
 }
 
-function outdoor(player){
+function outdoor(text, id){
   this.element = document.createElement("p");
   this.attachToPage = function(){
-    this.element.id = player;
-    this.element.appendChild(document.createTextNode(player));
+    this.element.id = id;
+    this.element.appendChild(document.createTextNode(text));
     document.body.appendChild(this.element);
   }
 }
@@ -169,22 +170,26 @@ function game(){
   const displayScore = new score(0,0);    
   const buttons = new button();
   const endDisplay = new display();
-  const playerOutdoor = new outdoor("YOU");
-  const computerOutdoor = new outdoor("COMPUTER");
+  const playerOutdoor = new outdoor("YOU", "YOU");
+  const computerOutdoor = new outdoor("COMPUTER", "COMPUTER");
+  const initialOutdoor = new outdoor(`The computer has maded his move!\nMade
+  yours to discover the winner of this round!`, "initial-outdoor");
 
   /* Inicializar elementos criados anteriormente */
 
   displayScore.refreshScore();
-  buttons.createButtons();
   buttons.activateButtons(endDisplay, displayScore);
 
   /* Atrelar elementos ao DOM */
 
+  initialOutdoor.attachToPage();
   document.body.appendChild(displayScore.scoreDisplay);
   playerOutdoor.attachToPage();
   document.body.appendChild(buttons.playingButtons);  
   computerOutdoor.attachToPage();
   document.body.appendChild(endDisplay.resultDisplay);
+
+   buttons.createButtons();
 }
 
 /* Ponto de Entrada do Jogo */

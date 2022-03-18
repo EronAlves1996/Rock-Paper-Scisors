@@ -15,14 +15,21 @@ button img{
 
 button{
   height: 200px;
-  width: 20%;
+  width: 200px;
   margin: 0px 50px;
 }
 
 .buttons{
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
+}
+
+.buttons.grid{
+  display:grid;
+  align-items: center;
+  justify-content: space-between;
+  grid-template-columns: 250px 300px 250px;
 }
 
 .choosed#paper{
@@ -30,7 +37,7 @@ button{
   transition-duration: 2s;
   height: 220px;
   margin: 0 200px;
-  width: 23%;
+  width: 230px;
   flex: 0 0 auto;
 }
 
@@ -39,7 +46,7 @@ button{
   transition-duration: 2s;
   height: 220px;
   margin: 0 200px 0 50px;
-  width: 23%;
+  width: 230px;
   flex: 0 0 auto;
 }
 
@@ -48,7 +55,7 @@ button{
   transition-duration: 2s;
   height: 220px;
   margin: 0 50px 0 200px;
-  width: 23%;
+  width: 230px;
   flex: 0 0 auto;
 }
 
@@ -57,7 +64,6 @@ button{
   transition-duration: 2s;
   opacity: 0;
   margin: 0;
-  flex: 0 0 auto;
 }
 
 .computer-play{
