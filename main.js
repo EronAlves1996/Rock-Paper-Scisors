@@ -121,8 +121,8 @@ function doPlaying(e, displayScore, display, buttons){
 function button(){
   this.playingButtons = document.createElement("div");
   this.createButtons = function(){
-    this.playingButtons.classList.add("buttons");
-    this.playingButtons.classList.toggle("grid");
+    this.playingButtons.classList.add("buttons")
+   // this.playingButtons.classList.toggle("grid");
     for(let i = 1;i<=3;i++){
       let tempButton = document.createElement("button");
       let buttonimg = document.createElement("img");
@@ -141,10 +141,12 @@ function button(){
           break;
       }
       tempButton.appendChild(buttonimg);
-      setTimeout(() => {
-        this.playingButtons.appendChild(tempButton);
-        if (i==3) this.playingButtons.classList.toggle('grid');
-      }, i*200);
+      tempButton.classList.toggle("initial");
+      this.playingButtons.appendChild(tempButton);
+      setTimeout(()=> {
+        tempButton.classList.toggle('initial');
+        //if (i=3) this.playingButtons.classList.toggle('grid');
+      }, 200*i);
   }};
   this.activateButtons = function(display, score){
     this.playingButtons.addEventListener('click', f = (e) => { doPlaying(e, score, display, this) });

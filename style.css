@@ -10,7 +10,7 @@ body{
 }
 
 button img{
-  width: 100px;
+  width: 50%;
 }
 
 button{
@@ -19,17 +19,29 @@ button{
   margin: 0px 50px;
 }
 
+.buttons button{
+  transition-duration: 500ms;
+}
+
+.initial{
+  height:1px;
+  width: 1px;
+  margin: 0;
+  opacity: 0;
+}
+
 .buttons{
   display: flex;
   align-items: center;
   justify-content: space-between;
+  height: 200px;
 }
 
 .buttons.grid{
   display:grid;
   align-items: center;
-  justify-content: space-between;
-  grid-template-columns: 250px 300px 250px;
+  justify-content: center;
+  grid-template-columns: 350px 350px 350px;
 }
 
 .choosed#paper{
