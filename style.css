@@ -1,4 +1,9 @@
- @import url('https://fonts.googleapis.com/css2?family=Hubballi&family=Roboto&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Hubballi&family=Roboto&display=swap');
+
+@keyframes typing {
+  from { width: 0 }
+  to { width: 100% }
+}
 
 body{
   background-color: #1b2849;
@@ -94,4 +99,22 @@ button{
   opacity: 1;
   position: static;
   transform: translateY(0);
+}
+
+.typewriter{
+  overflow: hidden;
+  border-right: .15em solid white;
+  white-space: nowrap;
+  width: 0;
+  animation: typing 2s steps(50, end) forwards;
+}
+
+.out-container{
+  display: inline-block;
+}
+
+.frame{
+  display: flex;
+  width: 100%;
+  height: 100%;
 }

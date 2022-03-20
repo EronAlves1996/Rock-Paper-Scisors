@@ -206,12 +206,16 @@ function button(){
   };
 }
 
-function outdoor(text, id){
+function outdoor(text, id, typewriter){
+  this.container = document.createElement('div');
   this.element = document.createElement("p");
-  this.attachToPage = function(){
+  this.setElements = function(){
     this.element.id = id;
+    this.container.classList.add('out-container');
+    this.element.classList.add('outdoor');
+    if(typewriter==true) this.element.classList.add('typewriter');
     this.element.appendChild(document.createTextNode(text));
-    document.body.appendChild(this.element);
+    this.container.appendChild(this.element);
   }
 }
 
@@ -222,10 +226,10 @@ function game(){
   const displayScore = new score(0,0),
     buttons = new button(),
     endDisplay = new display(),
-    playerOutdoor = new outdoor("YOU", "YOU"),
-    computerOutdoor = new outdoor("COMPUTER", "COMPUTER"),
+    playerOutdoor = new outdoor("YOU", "YOU", false),
+    computerOutdoor = new outdoor("COMPUTER", "COMPUTER", false),
     initialOutdoor = new outdoor(`The computer has maded his move!\nMade
-      yours to discover the winner of this round!`, "initial-outdoor");
+      yours to discover the winner of this round!`, "initial-outdoor", true);
 
   /* Inicializar elementos criados anteriormente */
 
@@ -244,6 +248,28 @@ function game(){
    buttons.createButtons();
 }
 
+function introduction(){
+  const frame = document.createElement('div'),
+    welcome = new outdoor("Welcome!!", "welcome", true),
+    invitation = new outdoor("Let's play a Rock, Paper, Scissor game?", "invitation", true);
+
+  frame.classList.add('frame');
+
+  document.body.appendChild(frame);
+  
+  frame.appendChild(welcome.container);
+  welcome.setElements();
+
+  frame.appendChild(document.createElement('br'));
+
+  welcome.element.addEventListener('animationend', ()=>{
+    setTimeout(()=>{
+      frame.appendChild(invitation.container);
+      invitation.setElements();
+    }, 1000);
+  });
+}
+  
 /* Ponto de Entrada do Jogo */
 
-addEventListener("DOMContentLoaded", game);
+addEventListener("DOMContentLoaded", introduction);
