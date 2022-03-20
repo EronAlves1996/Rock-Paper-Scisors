@@ -250,24 +250,51 @@ function game(){
 
 function introduction(){
   const frame = document.createElement('div'),
+    interDiv = document.createElement('div'),
     welcome = new outdoor("Welcome!!", "welcome", true),
-    invitation = new outdoor("Let's play a Rock, Paper, Scissor game?", "invitation", true);
+    invitation = new outdoor("Let's play a Rock, Paper, Scissor game?", "invitation", true),
+    divButtons = document.createElement('div');
 
   frame.classList.add('frame');
-
-  document.body.appendChild(frame);
+  interDiv.classList.add('inter-div');
+  interDiv.appendChild(frame);
+  document.body.appendChild(interDiv);
   
   frame.appendChild(welcome.container);
-  welcome.setElements();
-
   frame.appendChild(document.createElement('br'));
+  frame.appendChild(invitation.container);
+  frame.appendChild(divButtons);
+
+  welcome.container.classList.add("intro");
+  invitation.container.classList.add("intro");
+  divButtons.classList.add("intro");
+
+  welcome.setElements();
 
   welcome.element.addEventListener('animationend', ()=>{
     setTimeout(()=>{
-      frame.appendChild(invitation.container);
+      welcome.element.classList.toggle('typewriter');
       invitation.setElements();
     }, 1000);
   });
+
+  invitation.element.addEventListener('animationend', ()=>{
+    setTimeout( ()=>{
+      let buttonPlay = document.createElement('button'), 
+        buttonClose = document.createElement('button');
+
+      buttonPlay.textContent = "YES!!";
+      buttonClose.textContent = "NOOOO";
+
+      buttonPlay.addEventListener('click', game);
+      buttonClose.addEventListener('click', ()=>window.close());
+
+      divButtons.classList.add('intro');
+
+      divButtons.append(buttonPlay, buttonClose);
+    },1000);
+  }
+  )
 }
   
 /* Ponto de Entrada do Jogo */
