@@ -24,7 +24,7 @@ button img{
   width: 50%;
 }
 
-button{
+.frame button{
   margin: 0;
   flex: 1;
 }

@@ -235,14 +235,19 @@ function game(){
 
   displayScore.refreshScore();
   buttons.activateButtons(endDisplay, displayScore);
+  initialOutdoor.setElements();
+  playerOutdoor.setElements();
+  computerOutdoor.setElements();
 
   /* Atrelar elementos ao DOM */
 
-  initialOutdoor.attachToPage();
+  document.body.innerHTML = '';
+
+  document.body.appendChild(initialOutdoor.container);
   document.body.appendChild(displayScore.scoreDisplay);
-  playerOutdoor.attachToPage();
+  document.body.appendChild(playerOutdoor.container);
   document.body.appendChild(buttons.playingButtons);  
-  computerOutdoor.attachToPage();
+  document.body.appendChild(computerOutdoor.container);
   document.body.appendChild(endDisplay.resultDisplay);
 
    buttons.createButtons();
