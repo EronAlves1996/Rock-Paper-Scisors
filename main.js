@@ -47,6 +47,9 @@ function score(computerPoints, playerPoints){
 function display(){
   this.resultDisplay = document.createElement("div");
   this.changeDisplay = function(winvalue, computerSelection, displayScore){
+
+    //Controlando o placar de acordo com valor de jogada retornado da função roundPlay
+
     switch (winvalue){
       case 1:
         displayScore.playerPoints++;
@@ -57,15 +60,25 @@ function display(){
         displayScore.computerPoints++;
         break;
     }
-    this.resultDisplay.innerHTML = "";
-    let computerChoosed = document.createElement("button");
+
+    //Declarando variáveis com elementos que vão apresentar a jogada do computador
+    const computerChoosed = document.createElement("button"),
+      computerChoosedImg = document.createElement("img");
+
+    //Configurando as propriedades de cada um dos elementos
+
     computerChoosed.id = computerSelection;
     computerChoosed.classList.add("computer-play");
-    setTimeout(()=>computerChoosed.classList.add("animated"), 1000);
-    let computerChoosedImg = document.createElement("img");
+
     computerChoosedImg.src = `./images/${computerChoosed.id}.png`;
-    computerChoosed.appendChild(computerChoosedImg);
+
     this.resultDisplay.classList.add('result-display');
+
+    //Rotina de adição e execução no DOM
+
+    this.resultDisplay.innerHTML = "";
+    setTimeout(()=>computerChoosed.classList.add("animated"), 1000);
+    computerChoosed.appendChild(computerChoosedImg);
     this.resultDisplay.appendChild(computerChoosed);
     displayScore.refreshScore();
   }
@@ -97,6 +110,7 @@ function offerRestart(){
 
 function doPlaying(e, displayScore, display, buttons){
   e = e.target;
+
   while(!(e.matches("button"))){
     //Previne esse "subborbulhamento" de escapar do contexto de .buttons
     if(e.matches(".buttons")) return 0;
@@ -104,9 +118,11 @@ function doPlaying(e, displayScore, display, buttons){
   }
 
   //O código acima seleciona o button, porém é necessário aplicar o estilo 
-  //diretamente na Div
+  //diretamente na div, por isso preciso do elemento pai do mesmo
 
   e = e.parentNode;
+
+  //os timeouts retiram as classes necessárias, para passar ao próximo round
 
   buttons.playingButtons.childNodes.forEach(n => {
     if(!(n.classList === e.classList)) {
@@ -116,25 +132,35 @@ function doPlaying(e, displayScore, display, buttons){
   })
 
   e.classList.toggle('choosed');
+
   setTimeout(()=>e.classList.toggle('choosed'), 3000);
+
   let computerSelection = computerPlay();
   let playerSelection = e.classList[1];
   display.changeDisplay(roundPlay(playerSelection, computerSelection), computerSelection, displayScore);
   checkWin(displayScore, display, buttons);
-  setTimeout(()=>{
-
-  }, 3000)
 }
+
 
 function button(){
   this.playingButtons = document.createElement("div");
+  
   this.createButtons = function(){
-    this.playingButtons.classList.add("buttons")
+
+    this.playingButtons.classList.add("buttons");
+
+    //Necessário um button e uma div por cima do button para manter posicionamento
+
     for(let i = 1;i<=3;i++){
-      let tempDiv = document.createElement('div');
-      tempDiv.classList.add('button-container');
-      let tempButton = document.createElement("button");
-      let buttonimg = document.createElement("img");
+      
+      //Criando elementos
+
+      let tempDiv = document.createElement('div'),
+        tempButton = document.createElement("button"),
+        buttonimg = document.createElement("img");
+
+      //Cada ciclo do for vai criar um botão, pelo switch configura-se cada um
+
       switch(i){
         case 1:
           tempButton.classList.add('rock');
@@ -152,17 +178,29 @@ function button(){
           buttonimg.src = "./images/scissor.png";
           break;
       }
+
+      //Configurando cada elemento
+      
+      tempDiv.classList.add('button-container');
+      tempButton.classList.toggle("initial");
+
+      //Adicionando ao DOM
+
       tempButton.appendChild(buttonimg);
       tempDiv.appendChild(tempButton);
-      tempButton.classList.toggle("initial");
       this.playingButtons.appendChild(tempDiv);
+
+      //Setando um timeout para inserir uma animação progressiva
+
       setTimeout(()=> {
         tempButton.classList.toggle('initial');
       }, 200*i);
   }};
+
   this.activateButtons = function(display, score){
     this.playingButtons.addEventListener('click', f = (e) => { doPlaying(e, score, display, this) });
   };
+
   this.deactivateButtons = function(){
     this.playingButtons.removeEventListener('click', f, false);
   };
@@ -181,13 +219,13 @@ function game(){
 
   /* Criar Placar, botões e display de resultados em memória */
 
-  const displayScore = new score(0,0);    
-  const buttons = new button();
-  const endDisplay = new display();
-  const playerOutdoor = new outdoor("YOU", "YOU");
-  const computerOutdoor = new outdoor("COMPUTER", "COMPUTER");
-  const initialOutdoor = new outdoor(`The computer has maded his move!\nMade
-  yours to discover the winner of this round!`, "initial-outdoor");
+  const displayScore = new score(0,0),
+    buttons = new button(),
+    endDisplay = new display(),
+    playerOutdoor = new outdoor("YOU", "YOU"),
+    computerOutdoor = new outdoor("COMPUTER", "COMPUTER"),
+    initialOutdoor = new outdoor(`The computer has maded his move!\nMade
+      yours to discover the winner of this round!`, "initial-outdoor");
 
   /* Inicializar elementos criados anteriormente */
 
