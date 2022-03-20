@@ -14,19 +14,25 @@ button img{
 }
 
 button{
-  height: 200px;
-  width: 200px;
-  margin: 0px 50px;
+  width: 100%;
+  height: 100%;
+  margin: auto;
 }
 
-.buttons button{
+.button-container{
+  display: flex;
+  width: 200px;
+  height: 200px;
+  margin: 0 50px;
+}
+
+.buttons .button-container button{
   transition-duration: 500ms;
 }
 
 .initial{
-  height:1px;
-  width: 1px;
-  margin: 0;
+  width: 1%;
+  height: 1%;
   opacity: 0;
 }
 
@@ -37,14 +43,7 @@ button{
   height: 200px;
 }
 
-.buttons.grid{
-  display:grid;
-  align-items: center;
-  justify-content: center;
-  grid-template-columns: 350px 350px 350px;
-}
-
-.choosed#paper{
+.choosed.paper{
   transition-property: width, height, margin;
   transition-duration: 2s;
   height: 220px;
@@ -53,7 +52,7 @@ button{
   flex: 0 0 auto;
 }
 
-.choosed#rock{
+.choosed.rock{
   transition-property: width, height, margin;
   transition-duration: 2s;
   height: 220px;
@@ -62,7 +61,7 @@ button{
   flex: 0 0 auto;
 }
 
-.choosed#scissor{
+.choosed.scissor{
   transition-property: width, height, margin;
   transition-duration: 2s;
   height: 220px;

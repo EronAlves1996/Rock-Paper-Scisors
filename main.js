@@ -101,16 +101,23 @@ function doPlaying(e, displayScore, display, buttons){
     if(e.matches(".buttons")) return 0;
     e = e.parentNode;
   }
+
+  //O código acima seleciona o button, porém é necessário aplicar o estilo 
+  //diretamente na Div
+
+  e = e.parentNode;
+
   buttons.playingButtons.childNodes.forEach(n => {
-    if( !n.matches(`#${e.id}`)) {
+    if(!(n.classList === e.classList)) {
       n.classList.toggle('notchoosed');
       setTimeout(()=> n.classList.toggle('notchoosed'),3000);
     }
   })
+
   e.classList.toggle('choosed');
   setTimeout(()=>e.classList.toggle('choosed'), 3000);
   let computerSelection = computerPlay();
-  let playerSelection = e.id;
+  let playerSelection = e.classList[1];
   display.changeDisplay(roundPlay(playerSelection, computerSelection), computerSelection, displayScore);
   checkWin(displayScore, display, buttons);
   setTimeout(()=>{
@@ -122,30 +129,34 @@ function button(){
   this.playingButtons = document.createElement("div");
   this.createButtons = function(){
     this.playingButtons.classList.add("buttons")
-   // this.playingButtons.classList.toggle("grid");
     for(let i = 1;i<=3;i++){
+      let tempDiv = document.createElement('div');
+      tempDiv.classList.add('button-container');
       let tempButton = document.createElement("button");
       let buttonimg = document.createElement("img");
       switch(i){
         case 1:
-          tempButton.id = "rock";
+          tempButton.classList.add('rock');
+          tempDiv.classList.add('rock');
           buttonimg.src = "./images/rock.png";
           break;
         case 2:
-          tempButton.id = "paper";
+          tempButton.classList.add('paper');
+          tempDiv.classList.add('paper');
           buttonimg.src = "./images/paper.png";
           break;
         case 3:
-          tempButton.id = "scissor";
+          tempButton.classList.add('scissor');
+          tempDiv.classList.add('scissor');
           buttonimg.src = "./images/scissor.png";
           break;
       }
       tempButton.appendChild(buttonimg);
+      tempDiv.appendChild(tempButton);
       tempButton.classList.toggle("initial");
-      this.playingButtons.appendChild(tempButton);
+      this.playingButtons.appendChild(tempDiv);
       setTimeout(()=> {
         tempButton.classList.toggle('initial');
-        //if (i=3) this.playingButtons.classList.toggle('grid');
       }, 200*i);
   }};
   this.activateButtons = function(display, score){
