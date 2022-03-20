@@ -81,7 +81,12 @@ button{
   opacity: 0;
   transform: translateY(-40px);
   height: 220px;
-  width: 23%;
+  width: 230px;
+  margin: auto;
+}
+
+.result-display{
+  display: flex;
 }
 
 .computer-play.animated{

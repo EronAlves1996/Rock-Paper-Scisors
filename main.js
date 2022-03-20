@@ -65,6 +65,7 @@ function display(){
     let computerChoosedImg = document.createElement("img");
     computerChoosedImg.src = `./images/${computerChoosed.id}.png`;
     computerChoosed.appendChild(computerChoosedImg);
+    this.resultDisplay.classList.add('result-display');
     this.resultDisplay.appendChild(computerChoosed);
     displayScore.refreshScore();
   }
