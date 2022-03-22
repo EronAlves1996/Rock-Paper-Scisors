@@ -136,7 +136,7 @@ function doPlaying(e, displayScore, display, buttons){
   setTimeout(()=>e.classList.toggle('choosed'), 3000);
 
   let computerSelection = computerPlay();
-  let playerSelection = e.classList[1];
+  let playerSelection = e.classList[0];
   display.changeDisplay(roundPlay(playerSelection, computerSelection), computerSelection, displayScore);
   checkWin(displayScore, display, buttons);
 }
@@ -237,6 +237,8 @@ function game(){
   buttons.activateButtons(endDisplay, displayScore);
   initialOutdoor.setElements();
   playerOutdoor.setElements();
+  playerOutdoor.container.classList.add('game-out');
+  computerOutdoor.container.classList.add('game-out');
   computerOutdoor.setElements();
 
   /* Atrelar elementos ao DOM */
@@ -244,13 +246,15 @@ function game(){
   document.body.innerHTML = '';
 
   document.body.appendChild(initialOutdoor.container);
-  document.body.appendChild(displayScore.scoreDisplay);
-  document.body.appendChild(playerOutdoor.container);
-  document.body.appendChild(buttons.playingButtons);  
-  document.body.appendChild(computerOutdoor.container);
-  document.body.appendChild(endDisplay.resultDisplay);
-
-   buttons.createButtons();
+ // document.body.appendChild(displayScore.scoreDisplay);
+  initialOutdoor.container.addEventListener('animationend', ()=>{
+    document.body.appendChild(document.createElement('br'));
+    document.body.appendChild(playerOutdoor.container);
+    document.body.appendChild(buttons.playingButtons);  
+    document.body.appendChild(computerOutdoor.container);
+    document.body.appendChild(endDisplay.resultDisplay);
+    buttons.createButtons();
+  });
 }
 
 function introduction(){
