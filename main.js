@@ -39,8 +39,39 @@ function score(computerPoints, playerPoints){
   this.scoreDisplay = document.createElement("div");
   this.computerPoints = computerPoints;
   this.playerPoints = playerPoints;
-  this.refreshScore = function () {
-    this.scoreDisplay.textContent=`Computer = ${this.computerPoints}\nPlayer = ${this.playerPoints}`;
+  this.refreshScore = ()=> {
+    this.scoreDisplay.classList.add('score');
+    let scoreDiv = document.createElement('div'),
+      nextRoundDiv = document.createElement('div'),
+      scoreArr = [document.createElement('div'),
+        document.createElement('div'),
+        document.createElement('div')],
+      playerScore = [document.createElement("div"),
+        document.createElement('div')],
+      voidScore = document.createElement('div'),
+      computerScore = [document.createElement('div'), 
+        document.createElement('div')],
+      nextRoundButton = document.createElement('button');
+
+    playerScore[0].textContent = "YOU";
+    playerScore[1].textContent = this.playerPoints;
+
+    voidScore.textContent = "-";
+
+    computerScore[0].textContent = "COMPUTER";
+    computerScore[1].textContent = this.computerPoints;
+
+    playerScore.forEach(n=>scoreArr[0].appendChild(n));
+    scoreArr[1].appendChild(voidScore);
+    computerScore.forEach(n=>scoreArr[2].appendChild(n));
+
+    scoreArr.forEach(n=>scoreDiv.appendChild(n));
+    nextRoundDiv.appendChild(nextRoundButton);
+
+    this.scoreDisplay.appendChild(scoreDiv);
+    this.scoreDisplay.appendChild(nextRoundDiv);
+
+    document.body.appendChild(this.scoreDisplay);
   };
 }
 
@@ -78,9 +109,13 @@ function display(){
 
     this.resultDisplay.innerHTML = "";
     setTimeout(()=>computerChoosed.classList.add("animated"), 1000);
+
     computerChoosed.appendChild(computerChoosedImg);
     this.resultDisplay.appendChild(computerChoosed);
-    displayScore.refreshScore();
+
+    computerChoosed.addEventListener('transitionend', (e)=>{
+      if(e.propertyName == 'transform') setTimeout(displayScore.refreshScore, 1500);
+    });
   }
 }
 
@@ -233,7 +268,6 @@ function game(){
 
   /* Inicializar elementos criados anteriormente */
 
-  displayScore.refreshScore();
   buttons.activateButtons(endDisplay, displayScore);
   initialOutdoor.setElements();
   playerOutdoor.setElements();
