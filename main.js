@@ -1,112 +1,68 @@
 function logicalModule(){
   this.analisePlaying = (playerChoice, computerChoice) =>{
-    if (playerSelection === computerSelection){
+    if (playerChoice === computerChoice.id){
       return 0
     }else{
-      switch(playerSelection){
+      switch(playerChoice){
         case 'rock':
-          if(computerSelection === 'paper'){
-            return -1
+          if(computerChoice === 'paper'){
+            this.score[1]++;
           }
-          else if(computerSelection === 'scissor'){
-            return 1
+          else if(computerChoice === 'scissor'){
+            this.score[0]++;
           }
           break;
         case 'paper':
-          if(computerSelection === 'rock'){
-            return 1
+          if(computerChoice === 'rock'){
+            this.score[1]++;
           }
-          else if(computerSelection === 'scissor'){
-            return -1
+          else if(computerChoice === 'scissor'){
+            this.score[0]++;
           }
           break;
         case 'scissor':
-          if(computerSelection === 'paper'){
-            return 1
+          if(computerChoice === 'paper'){
+            this.score[0]++;
           }
-          else if(computerSelection === 'rock'){
-            return -1
-          }break;
+          else if(computerChoice === 'rock'){
+            this.score[1]++
+          }
+          break;
       }
-    }
-  };
-  this.analiseWinner = ()=>{
-    switch (this.analiseWinner){
-      case 1:
-        this.score[1]++;
-        break;
-      case 0:
-        break;
-      case -1:
-        this.score[0]++;
-        break;
     }
   };
   this.score = [0,0];
   this.checkWin = ()=> {
-    if(score[0] === 5) return 1;
-    else if(score[1] === 5) return 1;
+    if(this.score[0] === 5) return 1;
+    else if(this.score[1] === 5) return 1;
     else return 0;
   }
 }
 
-function roundPlay(playerSelection, computerSelection){
-   if (playerSelection === computerSelection){
-      return 0
-   }else{
-      switch(playerSelection){
-         case 'rock':
-            if(computerSelection === 'paper'){
-               return -1
-            }
-            else if(computerSelection === 'scissor'){
-               return 1
-            }
-            break;
-         case 'paper':
-            if(computerSelection === 'rock'){
-               return 1
-            }
-            else if(computerSelection === 'scissor'){
-               return -1
-            }
-            break;
-         case 'scissor': 
-            if(computerSelection === 'paper'){
-              return 1
-            }
-            else if(computerSelection === 'rock'){
-               return -1
-            }
-            break;
-      }
-   }
-}
+function finalDisplay(win, ...score){
+  let scoreDisplay = document.createElement("div");
+  let computerPoints = score[0][1];
+  let playerPoints = score[0][0];
 
-function score(computerPoints, playerPoints){
-  this.scoreDisplay = document.createElement("div");
-  this.computerPoints = computerPoints;
-  this.playerPoints = playerPoints;
-  this.refreshScore = ()=> {
-    let scoreDiv = document.createElement('div'),
-      nextRoundDiv = document.createElement('div'),
-      scoreArr = [document.createElement('div'),
-        document.createElement('div'),
-        document.createElement('div')],
-      playerScore = [document.createElement("div"),
-        document.createElement('div')],
-      voidScore = document.createElement('div'),
-      computerScore = [document.createElement('div'), 
-        document.createElement('div')],
-      nextRoundButton = document.createElement('button');
+  let scoreDiv = document.createElement('div'),
+    nextRoundDiv = document.createElement('div'),
+    scoreArr = [document.createElement('div'),
+      document.createElement('div'),
+      document.createElement('div')],
+    playerScore = [document.createElement("div"),
+    document.createElement('div')],
+    voidScore = document.createElement('div'),
+    computerScore = [document.createElement('div'),
+    document.createElement('div')],
+    nextRoundButton = document.createElement('button');
 
     playerScore[0].textContent = "YOU";
-    playerScore[1].textContent = this.playerPoints;
+    playerScore[1].textContent = playerPoints;
 
     voidScore.textContent = "-";
 
     computerScore[0].textContent = "COMPUTER";
-    computerScore[1].textContent = this.computerPoints;
+    computerScore[1].textContent = computerPoints;
 
     playerScore.forEach(n=>scoreArr[0].appendChild(n));
     scoreArr[1].appendChild(voidScore);
@@ -118,34 +74,19 @@ function score(computerPoints, playerPoints){
     });
     nextRoundDiv.appendChild(nextRoundButton);
 
-    this.scoreDisplay.appendChild(scoreDiv);
-    this.scoreDisplay.appendChild(nextRoundDiv);
+    scoreDisplay.appendChild(scoreDiv);
+    scoreDisplay.appendChild(nextRoundDiv);
 
-    this.scoreDisplay.classList.add('score');
+    scoreDisplay.classList.add('score');
     scoreDiv.classList.add('score-div');
     nextRoundDiv.classList.add('next-round-div');
     nextRoundButton.classList.add('next-round-button');
 
-    document.body.appendChild(this.scoreDisplay);
-  };
+    return scoreDisplay;
+
 }
 
-function display(){
-  this.resultDisplay = document.createElement("div");
-  this.changeDisplay = function(winvalue, computerSelection, displayScore){
 
-    //Controlando o placar de acordo com valor de jogada retornado da função roundPlay
-
-    switch (winvalue){
-      case 1:
-        displayScore.playerPoints++;
-        break;
-      case 0:
-        break;
-      case -1:
-        displayScore.computerPoints++;
-        break;
-    }
 /*
     //Declarando variáveis com elementos que vão apresentar a jogada do computador
     const computerChoosed = document.createElement("button"),
@@ -172,13 +113,12 @@ function display(){
       if(e.propertyName == 'transform') setTimeout(displayScore.refreshScore, 1500);
     });
     */
-  }
-}
-
+  
 function computerModule(){
-  this.computerChoice = ()=>{
-    return ["rock", "paper", "scissor"][Math.floor(Math.random() * 3)];
+  this.computerPlaying = ()=>{
+    this.computerChoice = ["rock", "paper", "scissor"][Math.floor(Math.random() * 3)];
   };
+  this.computerChoice = "";
   this.showChoice = ()=>{
     //Declarando variáveis com elementos que vão apresentar a jogada do computador
     const computerChoosed = document.createElement("button"),
@@ -193,7 +133,8 @@ function computerModule(){
     //Rotina de adição e execução no DOM
 
     //this.resultDisplay.innerHTML = "";
-    //setTimeout(()=>computerChoosed.classList.add("animated"), 1000);
+
+    setTimeout(()=>computerChoosed.classList.add("animated"), 1000);
 
     computerChoosed.appendChild(computerChoosedImg);
     return computerChoosed;
@@ -202,17 +143,6 @@ function computerModule(){
     //computerChoosed.addEventListener('transitionend', (e)=>{
     //  if(e.propertyName == 'transform') setTimeout(displayScore.refreshScore, 1500);
     //});
-}
-
-function checkWin(displayScore, display, buttons){
-  if (displayScore.playerPoints == 5) {
-    display.resultDisplay.textContent = "You win!!";
-    buttons.deactivateButtons(display, displayScore);
-    offerRestart();
-  } else if (displayScore.computerPoints == 5) {
-    display.resultDisplay.textContent = "You loose!!";
-    buttons.deactivateButtons(display, displayScore);
-    offerRestart();
   }
 }
 
@@ -318,7 +248,7 @@ function playerModule(){
       }, 200*i);
   }};
   
-  this.playerChoice = (e, continueFlow) => {
+  this.managePlaying = (e, continueFlow) => {
     e = e.target;
 
     while(!(e.matches("button"))){
@@ -331,30 +261,27 @@ function playerModule(){
     //diretamente na div, por isso preciso do elemento pai do mesmo
     
     e = e.parentNode;
-
-    //os timeouts retiram as classes necessárias, para passar ao próximo round
     
     this.playingButtons.childNodes.forEach(n => {
       if(!(n.classList === e.classList)) {
         n.classList.toggle('notchoosed');
-        //setTimeout(()=> n.classList.toggle('notchoosed'),3000);
       }
     })
 
     e.classList.toggle('choosed');
 
-    //setTimeout(()=>e.classList.toggle('choosed'), 3000);
-    
     setTimeout(continueFlow, 0);
-    return e.classList[0];
+    this.playerChoice = e.classList[0];
   }
 
+  this.playerChoice = "";
+
   this.activateButtons = (continueFlow) => {
-    this.playingButtons.addEventListener('click', f = function(e, continueFlow) {this.playerChoice(e, continueFlow)});
+    this.playingButtons.addEventListener('click', f = (e) => this.managePlaying(e, continueFlow));
   }
 
   this.deactivateButtons = function(){
-    this.playingButtons.removeEventListener('click', this.playerChoice);
+    this.playingButtons.removeEventListener('click', f);
   };
 }
 
@@ -375,18 +302,23 @@ function game(){
 
   /* Criar Placar, botões e display de resultados em memória */
 
-  const displayScore = new score(0,0),
-    pModule = new playerModule(),
-    cModule = new computerModule();
-    endDisplay = new display(),
+  const pModule = new playerModule(),
+    cModule = new computerModule(),
+    lModule = new logicalModule(),
     playerOutdoor = new outdoor("YOU", "YOU", false),
     computerOutdoor = new outdoor("COMPUTER", "COMPUTER", false),
     initialOutdoor = new outdoor(`The computer has maded his move!\nMade
       yours to discover the winner of this round!`, "initial-outdoor", true);
 
   const continueFlow = () => {
-    cModule.computerChoice();
-    document.body.appendChild(cModule.showChoice());
+    pModule.deactivateButtons();
+    cModule.computerPlaying();
+    let cChoice = cModule.showChoice();
+    document.body.appendChild(cChoice);
+    lModule.analisePlaying(pModule.playerChoice, cModule.computerChoice);
+    let win = lModule.checkWin();
+    let fDisplay = finalDisplay(win, lModule.score);
+    document.body.appendChild(fDisplay);
   }
 
   /* Inicializar elementos criados anteriormente */
@@ -408,16 +340,11 @@ function game(){
       document.body.appendChild(playerOutdoor.container);
       document.body.appendChild(pModule.playingButtons);
       document.body.appendChild(computerOutdoor.container);
-      document.body.appendChild(endDisplay.resultDisplay);
-      buttons.createButtons();
+      pModule.createButtons();
   });
   }
 
   //flow do programa
-  const continueFlow = () => {
-    cModule.computerChoice();
-    document.body.appendChild(cModule.showChoice());
-  }
 
   setRound();
 }
