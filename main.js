@@ -1,7 +1,3 @@
-function computerPlay(){
-   return ["rock", "paper", "scissor"][Math.floor(Math.random() * 3)]
-}
-
 function roundPlay(playerSelection, computerSelection){
    if (playerSelection === computerSelection){
       return 0
@@ -98,7 +94,7 @@ function display(){
         displayScore.computerPoints++;
         break;
     }
-
+/*
     //Declarando variáveis com elementos que vão apresentar a jogada do computador
     const computerChoosed = document.createElement("button"),
       computerChoosedImg = document.createElement("img");
@@ -123,7 +119,37 @@ function display(){
     computerChoosed.addEventListener('transitionend', (e)=>{
       if(e.propertyName == 'transform') setTimeout(displayScore.refreshScore, 1500);
     });
+    */
   }
+}
+
+function computerModule(){
+  this.computerChoice = ()=>{
+    return ["rock", "paper", "scissor"][Math.floor(Math.random() * 3)];
+  };
+  this.showChoice = ()=>{
+    //Declarando variáveis com elementos que vão apresentar a jogada do computador
+    const computerChoosed = document.createElement("button"),
+      computerChoosedImg = document.createElement("img");
+
+    //Configurando as propriedades de cada um dos elementos
+    computerChoosed.id = this.computerChoice;
+    computerChoosed.classList.add("computer-play");
+
+    computerChoosedImg.src = `./images/${this.computerChoice}.png`;
+
+    //Rotina de adição e execução no DOM
+
+    //this.resultDisplay.innerHTML = "";
+    //setTimeout(()=>computerChoosed.classList.add("animated"), 1000);
+
+    computerChoosed.appendChild(computerChoosedImg);
+    return computerChoosed;
+    //this.resultDisplay.appendChild(computerChoosed);
+
+    //computerChoosed.addEventListener('transitionend', (e)=>{
+    //  if(e.propertyName == 'transform') setTimeout(displayScore.refreshScore, 1500);
+    //});
 }
 
 function checkWin(displayScore, display, buttons){
@@ -240,7 +266,7 @@ function playerModule(){
       }, 200*i);
   }};
   
-  this.playerChoice = (e) => {
+  this.playerChoice = (e, continueFlow) => {
     e = e.target;
 
     while(!(e.matches("button"))){
@@ -266,12 +292,13 @@ function playerModule(){
     e.classList.toggle('choosed');
 
     //setTimeout(()=>e.classList.toggle('choosed'), 3000);
-
+    
+    setTimeout(continueFlow, 0);
     return e.classList[0];
   }
 
-  this.activateButtons = () => {
-    this.playingButtons.addEventListener('click', this.playerChoice);
+  this.activateButtons = (continueFlow) => {
+    this.playingButtons.addEventListener('click', f = function(e, continueFlow) {this.playerChoice(e, continueFlow)});
   }
 
   this.deactivateButtons = function(){
@@ -297,16 +324,22 @@ function game(){
   /* Criar Placar, botões e display de resultados em memória */
 
   const displayScore = new score(0,0),
-    buttons = new playerModule(),
+    pModule = new playerModule(),
+    cModule = new computerModule();
     endDisplay = new display(),
     playerOutdoor = new outdoor("YOU", "YOU", false),
     computerOutdoor = new outdoor("COMPUTER", "COMPUTER", false),
     initialOutdoor = new outdoor(`The computer has maded his move!\nMade
       yours to discover the winner of this round!`, "initial-outdoor", true);
 
+  const continueFlow = () => {
+    cModule.computerChoice();
+    document.body.appendChild(cModule.showChoice());
+  }
+
   /* Inicializar elementos criados anteriormente */
 
-  pModule.activateButtons(endDisplay, displayScore);
+  pModule.activateButtons(continueFlow);
   initialOutdoor.setElements();
   playerOutdoor.setElements();
   playerOutdoor.container.classList.add('game-out');
@@ -328,10 +361,13 @@ function game(){
   });
   }
 
-  while(true){
-    setRound();
-
+  //flow do programa
+  const continueFlow = () => {
+    cModule.computerChoice();
+    document.body.appendChild(cModule.showChoice());
   }
+
+  setRound();
 }
 
 function introduction(){
