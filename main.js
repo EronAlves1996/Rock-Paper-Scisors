@@ -1,3 +1,55 @@
+function logicalModule(){
+  this.analisePlaying = (playerChoice, computerChoice) =>{
+    if (playerSelection === computerSelection){
+      return 0
+    }else{
+      switch(playerSelection){
+        case 'rock':
+          if(computerSelection === 'paper'){
+            return -1
+          }
+          else if(computerSelection === 'scissor'){
+            return 1
+          }
+          break;
+        case 'paper':
+          if(computerSelection === 'rock'){
+            return 1
+          }
+          else if(computerSelection === 'scissor'){
+            return -1
+          }
+          break;
+        case 'scissor':
+          if(computerSelection === 'paper'){
+            return 1
+          }
+          else if(computerSelection === 'rock'){
+            return -1
+          }break;
+      }
+    }
+  };
+  this.analiseWinner = ()=>{
+    switch (this.analiseWinner){
+      case 1:
+        this.score[1]++;
+        break;
+      case 0:
+        break;
+      case -1:
+        this.score[0]++;
+        break;
+    }
+  };
+  this.score = [0,0];
+  this.checkWin = ()=> {
+    if(score[0] === 5) return 1;
+    else if(score[1] === 5) return 1;
+    else return 0;
+  }
+}
+
 function roundPlay(playerSelection, computerSelection){
    if (playerSelection === computerSelection){
       return 0
