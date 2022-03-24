@@ -162,3 +162,26 @@ button img{
 #initial-outdoor{
   margin: 0;
 }
+
+.score{
+  display: flex;
+  flex-direction: column;
+}
+
+.score-div, .next-round-div, .score-arr{
+  flex: 1;
+  display: flex;
+}
+
+.score-arr{
+  flex-direction: column;
+}
+
+.score-arr div{
+  text-align: center;
+  margin: auto;
+}
+
+.next-round-button{
+  margin: auto;
+}

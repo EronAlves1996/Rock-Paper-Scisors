@@ -40,7 +40,6 @@ function score(computerPoints, playerPoints){
   this.computerPoints = computerPoints;
   this.playerPoints = playerPoints;
   this.refreshScore = ()=> {
-    this.scoreDisplay.classList.add('score');
     let scoreDiv = document.createElement('div'),
       nextRoundDiv = document.createElement('div'),
       scoreArr = [document.createElement('div'),
@@ -65,11 +64,19 @@ function score(computerPoints, playerPoints){
     scoreArr[1].appendChild(voidScore);
     computerScore.forEach(n=>scoreArr[2].appendChild(n));
 
-    scoreArr.forEach(n=>scoreDiv.appendChild(n));
+    scoreArr.forEach(n=>{
+      n.classList.add('score-arr');
+      scoreDiv.appendChild(n);
+    });
     nextRoundDiv.appendChild(nextRoundButton);
 
     this.scoreDisplay.appendChild(scoreDiv);
     this.scoreDisplay.appendChild(nextRoundDiv);
+
+    this.scoreDisplay.classList.add('score');
+    scoreDiv.classList.add('score-div');
+    nextRoundDiv.classList.add('next-round-div');
+    nextRoundButton.classList.add('next-round-button');
 
     document.body.appendChild(this.scoreDisplay);
   };
@@ -142,7 +149,7 @@ function offerRestart(){
   restartButton.addEventListener("click", restartGame);
   document.body.appendChild(restartButton);
 }
-
+/*
 function doPlaying(e, displayScore, display, buttons){
   e = e.target;
 
@@ -172,12 +179,13 @@ function doPlaying(e, displayScore, display, buttons){
 
   let computerSelection = computerPlay();
   let playerSelection = e.classList[0];
+  buttons.playerChoice = e.classList[0];
   display.changeDisplay(roundPlay(playerSelection, computerSelection), computerSelection, displayScore);
   checkWin(displayScore, display, buttons);
 }
+*/
 
-
-function button(){
+function playerModule(){
   this.playingButtons = document.createElement("div");
   
   this.createButtons = function(){
@@ -231,13 +239,43 @@ function button(){
         tempButton.classList.toggle('initial');
       }, 200*i);
   }};
+  
+  this.playerChoice = (e) => {
+    e = e.target;
 
-  this.activateButtons = function(display, score){
-    this.playingButtons.addEventListener('click', f = (e) => { doPlaying(e, score, display, this) });
-  };
+    while(!(e.matches("button"))){
+      //Previne esse "subborbulhamento" de escapar do contexto de .buttons
+      if(e.matches(".buttons")) return 0;
+      e = e.parentNode;
+    }
+
+    //O código acima seleciona o button, porém é necessário aplicar o estilo
+    //diretamente na div, por isso preciso do elemento pai do mesmo
+    
+    e = e.parentNode;
+
+    //os timeouts retiram as classes necessárias, para passar ao próximo round
+    
+    this.playingButtons.childNodes.forEach(n => {
+      if(!(n.classList === e.classList)) {
+        n.classList.toggle('notchoosed');
+        //setTimeout(()=> n.classList.toggle('notchoosed'),3000);
+      }
+    })
+
+    e.classList.toggle('choosed');
+
+    //setTimeout(()=>e.classList.toggle('choosed'), 3000);
+
+    return e.classList[0];
+  }
+
+  this.activateButtons = () => {
+    this.playingButtons.addEventListener('click', this.playerChoice);
+  }
 
   this.deactivateButtons = function(){
-    this.playingButtons.removeEventListener('click', f, false);
+    this.playingButtons.removeEventListener('click', this.playerChoice);
   };
 }
 
@@ -259,7 +297,7 @@ function game(){
   /* Criar Placar, botões e display de resultados em memória */
 
   const displayScore = new score(0,0),
-    buttons = new button(),
+    buttons = new playerModule(),
     endDisplay = new display(),
     playerOutdoor = new outdoor("YOU", "YOU", false),
     computerOutdoor = new outdoor("COMPUTER", "COMPUTER", false),
@@ -268,7 +306,7 @@ function game(){
 
   /* Inicializar elementos criados anteriormente */
 
-  buttons.activateButtons(endDisplay, displayScore);
+  pModule.activateButtons(endDisplay, displayScore);
   initialOutdoor.setElements();
   playerOutdoor.setElements();
   playerOutdoor.container.classList.add('game-out');
@@ -277,18 +315,23 @@ function game(){
 
   /* Atrelar elementos ao DOM */
 
-  document.body.innerHTML = '';
-
-  document.body.appendChild(initialOutdoor.container);
- // document.body.appendChild(displayScore.scoreDisplay);
-  initialOutdoor.container.addEventListener('animationend', ()=>{
-    document.body.appendChild(document.createElement('br'));
-    document.body.appendChild(playerOutdoor.container);
-    document.body.appendChild(buttons.playingButtons);  
-    document.body.appendChild(computerOutdoor.container);
-    document.body.appendChild(endDisplay.resultDisplay);
-    buttons.createButtons();
+  const setRound = () => {
+    document.body.innerHTML = '';
+    document.body.appendChild(initialOutdoor.container);
+    initialOutdoor.container.addEventListener('animationend', ()=>{
+      document.body.appendChild(document.createElement('br'));
+      document.body.appendChild(playerOutdoor.container);
+      document.body.appendChild(pModule.playingButtons);
+      document.body.appendChild(computerOutdoor.container);
+      document.body.appendChild(endDisplay.resultDisplay);
+      buttons.createButtons();
   });
+  }
+
+  while(true){
+    setRound();
+
+  }
 }
 
 function introduction(){
