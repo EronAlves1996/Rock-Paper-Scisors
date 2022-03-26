@@ -101,12 +101,12 @@ button img{
   margin: auto;
 }
 
-.result-display{
+.computer-div{
   display: flex;
 }
 
 .computer-play.animated{
-  transition: 2s;
+  transition: 1.5s;
   opacity: 1;
   position: static;
   transform: translateY(0);

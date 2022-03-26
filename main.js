@@ -34,7 +34,7 @@ function logicalModule(){
   this.score = [0,0];
   this.checkWin = ()=> {
     if(this.score[0] === 5) return 1;
-    else if(this.score[1] === 5) return 1;
+    else if(this.score[1] === 5) return 2;
     else return 0;
   }
 }
@@ -86,13 +86,24 @@ function finalDisplay(win, score, ...event){
 
   scoreDisplay.classList.add('score');
   scoreDisplay.classList.add('b4-animation');
-  setTimeout(()=>scoreDisplay.classList.remove('b4-animation'), 1000);
+  setTimeout(()=>scoreDisplay.classList.remove('b4-animation'), 3000);
 
   scoreDiv.classList.add('score-div');
   nextRoundDiv.classList.add('next-round-div');
   nextRoundButton.classList.add('next-round-button');
 
   if (win === 1){
+    let winnerDisplay = document.createElement('div');
+    winnerDisplay.textContent = "YOU WIN!!!";
+    scoreDisplay.insertBefore(winnerDisplay, nextRoundDiv);
+
+    nextRoundButton.textContent = "New Game";
+    nextRoundButton.addEventListener('click', game);
+  } else if (win == 2){
+    let winnerDisplay = document.createElement('div');
+    winnerDisplay.textContent = "YOU LOOSE!!!";
+    scoreDisplay.insertBefore(winnerDisplay, nextRoundDiv);
+
     nextRoundButton.textContent = "New Game";
     nextRoundButton.addEventListener('click', game);
   }
@@ -114,7 +125,8 @@ function computerModule(){
   this.showChoice = ()=>{
     //Declarando variáveis com elementos que vão apresentar a jogada do computador
     const computerChoosed = document.createElement("button"),
-      computerChoosedImg = document.createElement("img");
+      computerChoosedImg = document.createElement("img"),
+      computerDiv = document.createElement('div');
 
     //Configurando as propriedades de cada um dos elementos
     computerChoosed.id = this.computerChoice;
@@ -122,14 +134,15 @@ function computerModule(){
 
     computerChoosedImg.src = `./images/${this.computerChoice}.png`;
 
+    computerDiv.classList.add('computer-div');
+
     //Rotina de adição e execução no DOM
-
-    //this.resultDisplay.innerHTML = "";
-
-    setTimeout(()=>computerChoosed.classList.add("animated"), 1000);
+    
+    setTimeout(()=>computerChoosed.classList.add("animated"), 500);
 
     computerChoosed.appendChild(computerChoosedImg);
-    return computerChoosed;
+    computerDiv.appendChild(computerChoosed);
+    return computerDiv;
   }
 }
 
@@ -276,7 +289,13 @@ function game(){
     lModule.analisePlaying(pModule.playerChoice, cModule.computerChoice);
     let win = lModule.checkWin();
     let fDisplay = finalDisplay(win, lModule.score, setRound);
-    document.body.appendChild(fDisplay);
+    let showDisplay = ()=>{
+      setTimeout(() =>{
+        document.body.appendChild(fDisplay);
+        cChoice.removeEventListener('transitionend', showDisplay);
+      }, 500);
+    };
+    cChoice.addEventListener('transitionend', showDisplay);
   }
 
   /* Inicializar elementos criados anteriormente */
