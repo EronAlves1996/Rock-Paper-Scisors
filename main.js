@@ -14,10 +14,10 @@ function logicalModule(){
           break;
         case 'paper':
           if(computerChoice === 'rock'){
-            this.score[1]++;
+            this.score[0]++;
           }
           else if(computerChoice === 'scissor'){
-            this.score[0]++;
+            this.score[1]++;
           }
           break;
         case 'scissor':
@@ -39,10 +39,10 @@ function logicalModule(){
   }
 }
 
-function finalDisplay(win, ...score){
+function finalDisplay(win, score, ...event){
   let scoreDisplay = document.createElement("div");
-  let computerPoints = score[0][1];
-  let playerPoints = score[0][0];
+  let computerPoints = score[1];
+  let playerPoints = score[0];
 
   let scoreDiv = document.createElement('div'),
     nextRoundDiv = document.createElement('div'),
@@ -82,38 +82,20 @@ function finalDisplay(win, ...score){
     nextRoundDiv.classList.add('next-round-div');
     nextRoundButton.classList.add('next-round-button');
 
-    return scoreDisplay;
+  if (win === 1){
+    nextRoundButton.textContent = "New Game";
+    nextRoundButton.addEventListener('click', game);
+  }
+  else{
+    nextRoundButton.textContent = "Next Round";
+    nextRoundButton.addEventListener('click', event[0]);
+  }
 
+  return scoreDisplay;
 }
 
 
-/*
-    //Declarando variáveis com elementos que vão apresentar a jogada do computador
-    const computerChoosed = document.createElement("button"),
-      computerChoosedImg = document.createElement("img");
-
-    //Configurando as propriedades de cada um dos elementos
-
-    computerChoosed.id = computerSelection;
-    computerChoosed.classList.add("computer-play");
-
-    computerChoosedImg.src = `./images/${computerChoosed.id}.png`;
-
-    this.resultDisplay.classList.add('result-display');
-
-    //Rotina de adição e execução no DOM
-
-    this.resultDisplay.innerHTML = "";
-    setTimeout(()=>computerChoosed.classList.add("animated"), 1000);
-
-    computerChoosed.appendChild(computerChoosedImg);
-    this.resultDisplay.appendChild(computerChoosed);
-
-    computerChoosed.addEventListener('transitionend', (e)=>{
-      if(e.propertyName == 'transform') setTimeout(displayScore.refreshScore, 1500);
-    });
-    */
-  
+ 
 function computerModule(){
   this.computerPlaying = ()=>{
     this.computerChoice = ["rock", "paper", "scissor"][Math.floor(Math.random() * 3)];
@@ -138,11 +120,6 @@ function computerModule(){
 
     computerChoosed.appendChild(computerChoosedImg);
     return computerChoosed;
-    //this.resultDisplay.appendChild(computerChoosed);
-
-    //computerChoosed.addEventListener('transitionend', (e)=>{
-    //  if(e.propertyName == 'transform') setTimeout(displayScore.refreshScore, 1500);
-    //});
   }
 }
 
@@ -157,46 +134,13 @@ function offerRestart(){
   restartButton.addEventListener("click", restartGame);
   document.body.appendChild(restartButton);
 }
-/*
-function doPlaying(e, displayScore, display, buttons){
-  e = e.target;
-
-  while(!(e.matches("button"))){
-    //Previne esse "subborbulhamento" de escapar do contexto de .buttons
-    if(e.matches(".buttons")) return 0;
-    e = e.parentNode;
-  }
-
-  //O código acima seleciona o button, porém é necessário aplicar o estilo 
-  //diretamente na div, por isso preciso do elemento pai do mesmo
-
-  e = e.parentNode;
-
-  //os timeouts retiram as classes necessárias, para passar ao próximo round
-
-  buttons.playingButtons.childNodes.forEach(n => {
-    if(!(n.classList === e.classList)) {
-      n.classList.toggle('notchoosed');
-      setTimeout(()=> n.classList.toggle('notchoosed'),3000);
-    }
-  })
-
-  e.classList.toggle('choosed');
-
-  setTimeout(()=>e.classList.toggle('choosed'), 3000);
-
-  let computerSelection = computerPlay();
-  let playerSelection = e.classList[0];
-  buttons.playerChoice = e.classList[0];
-  display.changeDisplay(roundPlay(playerSelection, computerSelection), computerSelection, displayScore);
-  checkWin(displayScore, display, buttons);
-}
-*/
 
 function playerModule(){
-  this.playingButtons = document.createElement("div");
+  this.playingButtons = "";
   
   this.createButtons = function(){
+    this.playingButtons = '';
+    this.playingButtons = document.createElement('div');
 
     this.playingButtons.classList.add("buttons");
 
@@ -310,6 +254,22 @@ function game(){
     initialOutdoor = new outdoor(`The computer has maded his move!\nMade
       yours to discover the winner of this round!`, "initial-outdoor", true);
 
+  const attachElements = ()=>{
+    document.body.appendChild(document.createElement('br'));
+    document.body.appendChild(playerOutdoor.container);
+    pModule.createButtons();
+    pModule.activateButtons(continueFlow);
+    document.body.appendChild(pModule.playingButtons);
+    document.body.appendChild(computerOutdoor.container);
+    initialOutdoor.container.removeEventListener('animationend', attachElements);
+  }
+
+  const setRound = () => {
+    document.body.innerHTML = '';
+    document.body.appendChild(initialOutdoor.container);
+    initialOutdoor.container.addEventListener('animationend', attachElements);
+  }
+
   const continueFlow = () => {
     pModule.deactivateButtons();
     cModule.computerPlaying();
@@ -317,34 +277,17 @@ function game(){
     document.body.appendChild(cChoice);
     lModule.analisePlaying(pModule.playerChoice, cModule.computerChoice);
     let win = lModule.checkWin();
-    let fDisplay = finalDisplay(win, lModule.score);
+    let fDisplay = finalDisplay(win, lModule.score, setRound);
     document.body.appendChild(fDisplay);
   }
 
   /* Inicializar elementos criados anteriormente */
 
-  pModule.activateButtons(continueFlow);
   initialOutdoor.setElements();
   playerOutdoor.setElements();
   playerOutdoor.container.classList.add('game-out');
   computerOutdoor.container.classList.add('game-out');
   computerOutdoor.setElements();
-
-  /* Atrelar elementos ao DOM */
-
-  const setRound = () => {
-    document.body.innerHTML = '';
-    document.body.appendChild(initialOutdoor.container);
-    initialOutdoor.container.addEventListener('animationend', ()=>{
-      document.body.appendChild(document.createElement('br'));
-      document.body.appendChild(playerOutdoor.container);
-      document.body.appendChild(pModule.playingButtons);
-      document.body.appendChild(computerOutdoor.container);
-      pModule.createButtons();
-  });
-  }
-
-  //flow do programa
 
   setRound();
 }
