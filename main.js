@@ -56,31 +56,41 @@ function finalDisplay(win, score, ...event){
     document.createElement('div')],
     nextRoundButton = document.createElement('button');
 
-    playerScore[0].textContent = "YOU";
-    playerScore[1].textContent = playerPoints;
+  playerScore[0].textContent = "YOU";
+  playerScore[1].textContent = playerPoints;
 
-    voidScore.textContent = "-";
+  voidScore.textContent = "-";
+  voidScore.classList.add('void-score');
 
-    computerScore[0].textContent = "COMPUTER";
-    computerScore[1].textContent = computerPoints;
+  computerScore[0].textContent = "COMPUTER";
+  computerScore[1].textContent = computerPoints;
 
-    playerScore.forEach(n=>scoreArr[0].appendChild(n));
-    scoreArr[1].appendChild(voidScore);
-    computerScore.forEach(n=>scoreArr[2].appendChild(n));
+  playerScore.forEach(n=>{
+    scoreArr[0].appendChild(n);
+    n.classList.add('player-score');
+  });
+  scoreArr[1].appendChild(voidScore);
+  computerScore.forEach(n=>{
+    scoreArr[2].appendChild(n);
+    n.classList.add('computer-score');
+  });
 
-    scoreArr.forEach(n=>{
-      n.classList.add('score-arr');
-      scoreDiv.appendChild(n);
-    });
-    nextRoundDiv.appendChild(nextRoundButton);
+  scoreArr.forEach(n=>{
+    n.classList.add('score-arr');
+    scoreDiv.appendChild(n);
+  });
 
-    scoreDisplay.appendChild(scoreDiv);
-    scoreDisplay.appendChild(nextRoundDiv);
+  nextRoundDiv.appendChild(nextRoundButton);
+  scoreDisplay.appendChild(scoreDiv);
+  scoreDisplay.appendChild(nextRoundDiv);
 
-    scoreDisplay.classList.add('score');
-    scoreDiv.classList.add('score-div');
-    nextRoundDiv.classList.add('next-round-div');
-    nextRoundButton.classList.add('next-round-button');
+  scoreDisplay.classList.add('score');
+  scoreDisplay.classList.add('b4-animation');
+  setTimeout(()=>scoreDisplay.classList.remove('b4-animation'), 1000);
+
+  scoreDiv.classList.add('score-div');
+  nextRoundDiv.classList.add('next-round-div');
+  nextRoundButton.classList.add('next-round-button');
 
   if (win === 1){
     nextRoundButton.textContent = "New Game";
@@ -121,18 +131,6 @@ function computerModule(){
     computerChoosed.appendChild(computerChoosedImg);
     return computerChoosed;
   }
-}
-
-function restartGame(){
-  document.body.innerHTML = "";
-  game();
-}
-
-function offerRestart(){
-  let restartButton = document.createElement("button");
-  restartButton.textContent = "Restart";
-  restartButton.addEventListener("click", restartGame);
-  document.body.appendChild(restartButton);
 }
 
 function playerModule(){
